@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css"
+    />
+    <title>Ferris says&hellip;</title>
+    <style>
+      body {
+        max-width: 1000px;
+        margin: 0 auto;
+        padding: 5rem 1rem 1rem;
+        font: normal 1rem/1.2 sans-serif;
+        color: #444;
+        background: #fbfbfb;
+      }
+
+      @media screen and (min-width: 700px) {
+        html {
+          font-size: 125%;
+        }
+      }
+
+      a:hover,
+      a:focus {
+        text-decoration: none;
+      }
+
+      .header {
+        position: fixed;
+        top: 0;
+        right: 0;
+        left: 0;
+        height: 3rem;
+        background: #009090;
+        display: flex;
+        align-items: center;
+        padding-left: 1rem;
+      }
+
+      .header a {
+        color: white;
+      }
+    </style>
+  </head>
+  <body>
+    <header class="header">
+      <a href="/hackweek-13/">back to overview</a>
+    </header>
+    <pre id="ferris"></pre>
+
+    <script type="module">
+      import loadWasm, {
+        ferris_log as ferrisLog,
+        ferris_dom as ferrisDom,
+      } from './pkg/ferris_says.js';
+
+      function main() {
+        ferrisLog('Hello from the console!', 23);
+        ferrisDom('Hi, I am Ferris. What is   your name? jk.', 24, 'ferris');
+      }
+
+      loadWasm('./pkg/ferris_says_bg.wasm').then(main, console.error);
+    </script>
+  </body>
+</html>

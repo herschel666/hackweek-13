@@ -1,0 +1,12 @@
+{
+  "name": "hackweek-13",
+  "license": "BEERWARE",
+  "devDependencies": {
+    "marked": "^0.6.2",
+    "mustache": "^3.0.1",
+    "serve": "^11.0.0"
+  },
+  "scripts": {
+    "serve": "serve -n -l 8080"
+  }
+}

@@ -1,0 +1,6 @@
+target
+node-pkg
+*/pkg/*.d.ts
+*/pkg/package.json
+*/pkg/LICENSE
+**/*.rs.bk

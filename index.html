@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Hackweek #13</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css"
+    />
+    <style>
+      body {
+        max-width: 1000px;
+        margin: 0 auto;
+        padding: 1rem;
+        font: normal 1rem/1.2 sans-serif;
+        color: #444;
+        background: #fbfbfb;
+      }
+
+      blockquote {
+        border-left: 4px solid #bbb;
+        padding-left: 1rem;
+        margin-left: 0;
+        font-size: 0.9rem;
+        line-height: 1.8;
+      }
+
+      a {
+        color: #009090;
+        text-decoration: none;
+      }
+
+      a:hover,
+      a:focus {
+        text-decoration: underline;
+      }
+
+      @media screen and (min-width: 700px) {
+        html {
+          font-size: 125%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <h1 id="hackweek-13-rust--webassembly">Hackweek 13 &quot;Rust &amp; WebAssembly&quot;</h1> <blockquote> <p>Trying out WebAssembly with Rust to get an understanding of the possibilities and drawbacks of this technique.</p> </blockquote> <p>Three times a year we&#39;re having a <a href="https://www.xing.com/communities/groups/xing-hackweek-d579-1093367">Hackweek here at XING</a>, where everybody has the opportunity to hack on a project to improve themselves and learn new things.</p> <p>I choose to dive into the world of WebAssembly. As the origin language I decided to take Rust, because I liked the tooling, that I had seen so far and I was curious if it was really that good in practice.</p> <p>As a prerequisite I had taken a few days in beforehand to learn Rust, since I&#39;m not really familiar with that language nor with any other system programming language. As you would expect I didn&#39;t became a professional Rust programmer over the course of a few days. But it sufficed to do the Hackweek with a StackOverflow-driven approach. Please don&#39;t use my code as a reference, though!</p> <h2 id="the-tooling">The tooling</h2> <p>All the demos are compiled with <a href="https://rustwasm.github.io/"><code>wasm-pack</code></a>, which is an awesome tool that hides a lot of the tedious and painful tasks of writing Rust for Wasm and provides high-level interactions between Wasm modules and Javascript.</p> <p>It also provides the code needed for loading and instantiating Wasm modules for different environments and module systems, which saves a lot of time.</p> <h2 id="the-demos">The demos</h2> <p>I came up with four more or less useful ideas that highlight different aspects of the tooling and the capabailities of WebAssembly. You can have a look at the code and try the versions compiled for the web. The first two demos I also compiled for Node, which worked, but which I can&#39;t provide as a here unfortunately.</p> <h3 id="hello-world"><code>Hello World!</code></h3> <p>(<a href="https:github.com/herschel666/hackweek-13/tree/master/01-hello-world/">Code</a> | <a href="https://herschel666.github.io/hackweek-13/01-hello-world/">Demo</a>)</p> <p>Here I just wanted to have the most basic WebAssembly app possible, while not only having anything to compile at all, but also call Javascript APIs from within the Rust code.</p> <p>This is fairly easy when standing on the shoulders of <a href="https://rustwasm.github.io/"><code>wasm-pack</code></a>. So this first demo is sporting an annoying <code>alert</code>- and a more amiable <code>console.log</code>-call.</p> <h3 id="ferris-says"><code>Ferris says…</code></h3> <p>(<a href="https:github.com/herschel666/hackweek-13/tree/master/02-ferris-says/">Code</a> | <a href="https://herschel666.github.io/hackweek-13/02-ferris-says/">Demo</a>)</p> <p>Since working with <code>wasm-pack</code> and (some of) its features has been fun &amp; joy, I wanted to go further and use a package from the Rust package registry <a href="https://crates.io/">crates.io</a> and use this in my WebAssembly app.</p> <p>I decided to go for Rust&#39;s answer to <a href="https://en.wikipedia.org/wiki/Cowsay"><code>cowsay</code></a>: <a href="https://crates.io/crates/ferris-says"><code>ferris-says</code></a>. This provided me with the opportunity to get my hands dirty with DOM manipulation from within Rust code. It also brought the challenge to intercept the output of <code>ferris-says</code>, which usually takes a <a href="https://doc.rust-lang.org/std/io/struct.BufWriter.html"><code>BufWriter</code></a> instance as an argument and thus directly writes to <code>stdout</code>. This is no option in the context of WebAssembly, so I rather pass in an instance of a <a href="https://doc.rust-lang.org/std/io/struct.Cursor.html"><code>Cursor</code></a> and am thereby able to get the output in the form of a list of <code>u8</code> chars which I can then convert into a <code>String</code>.</p> <h3 id="todo-list"><code>Todo list</code></h3> <p>(<a href="https:github.com/herschel666/hackweek-13/tree/master/03-todo-list/">Code</a> | <a href="https://herschel666.github.io/hackweek-13/03-todo-list/">Demo</a>)</p> <p>A todo list — boring, I know… But it&#39;s a good exercise in using structs to create <code>class</code>-like objects which I can then use in the Javascript code. The challenge here is to cross the boundary between Rust &amp; Javascript. E.g. the <code>TodoList</code> struct holds a list of <code>Todo</code> instances and returns them from the method <code>items</code>. The result would usually be of type <code>Vec&lt;Todo&gt;</code>. But since the method is called from Javascriptland, this doesn&#39;t work. The result has to be serialized so it can cross the boundary. Hence the actual return type of this method is the more expressive <code>JsValue</code>.</p> <p>Overall this example is pretty useless, to be honest. Both the <code>Todo</code> and the <code>TodoList</code> classes are automatically re-created in the JS code by <code>wasm-pack</code>, which is imho pure redundance, since I don&#39;t gain any benefits from having them defined in Rust in the first place.</p> <p>Also — since I&#39;m using <a href="https://preactjs.com/">Preact</a> to build the frontend — I put a state management layer below the sufficient one that&#39;s provided the Preact&#39;s <code>Component</code>, which again doesn&#39;t bring any benefits, but rather makes things more complicated. On the other hand: who cares?! I&#39;m just hacking around here anyways… 😅</p> <h3 id="bcrypt"><code>Bcrypt</code></h3> <p>(<a href="https:github.com/herschel666/hackweek-13/tree/master/04-bcrypt/">Code</a> | <a href="https://herschel666.github.io/hackweek-13/04-bcrypt/">Demo</a>)</p> <p>In the last demo I wanted to use a bigger package and provide a functionality, that isn&#39;t usually available in the browser. I decided to go with <a href="https://crates.io/crates/bcrypter"><code>bcrypter</code></a> here.</p> <p>This package requires Rust Nightly. Furthermore it didn&#39;t simply work out of the box, since <code>bcrypter</code> currently relies on an outdated version of <a href="https://crates.io/crates/rand"><code>rand</code></a>, which doesn&#39;t support Wasm. So I cloned <a href="https://github.com/MitchellBerry/BCrypter"><code>bcrypter</code>-repo</a>, changed the <code>rand</code>-dependency and enabled the <code>&quot;wasm-bindgen&quot;</code>-feature for it. Then I pointed the depedency in the <code>Cargo.toml</code> to the local version of <code>bcrypter</code>.</p> <p>As a result it&#39;s rather tedious to clone this repo and try to get the <code>Bcrypt</code> demo run locally. But I actually don&#39;t expect anybody to do this.</p> <p>When you try the demo and set a somewhat higher cost, you will see that hashing the input takes quite some time. That&#39;s why I decided to outsource the process into a Web Worker, to not block the main thread for a minute or longer.</p> <h2 id="conclusion">Conclusion</h2> <p>Fiddling with WebAssembly was definitely fun. And the possibilities are quite fascinating. But I also have to admit that for the web apps and tools I mostly develop, Wasm doesn&#39;t bring much benefits.</p> <p>Regarding web apps, I mostly use React. While there are projects like e.g. <a href="https://github.com/DenisKolodin/yew/"><code>yew</code></a>, that let you write React-inspired web applications in Rust, this doesn&#39;t make sense for me as a Javascript developer. It won&#39;t be significantly faster and if I wanted type-safety, I&#39;d rather introduce Typescript into my codebase.</p> <p>When it comes to tooling, I&#39;m usually good with Node. The benefits of Wasm here would rather come with Node packages that ship a Wasm module instead of doing a lengthy native binding in a postinstall step.</p> <p>So Wasm won&#39;t replace Javascript. But if I was e.g. about to do some complicated image manipulation in the browser, I think I&#39;d definitley benefit from having parts of the application being loaded as a Wasm module, that bring certain features I won&#39;t be able to write easily in Javascript.</p> <hr> <p>&copy; 2019 <a href="https://twitter.com/Herschel_R">Emanuel Kluge</a></p>
+  </body>
+</html>

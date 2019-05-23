@@ -1,0 +1,120 @@
+body {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 5rem 1rem 1rem;
+  font: normal 1rem/1.2 sans-serif;
+  color: #444;
+  background: #fbfbfb;
+}
+
+@media screen and (min-width: 700px) {
+  html {
+    font-size: 125%;
+  }
+}
+
+a:hover,
+a:focus {
+  text-decoration: none;
+}
+
+.header {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 3rem;
+  background: #009090;
+  display: flex;
+  align-items: center;
+  padding-left: 1rem;
+}
+
+.header a {
+  color: white;
+}
+
+.pending {
+  opacity: 0.2;
+  pointer-events: none;
+}
+
+.form-row {
+  margin-bottom: 1rem;
+}
+
+.form-input {
+  min-width: 14rem;
+}
+
+.form-label {
+  display: block;
+  font-size: 0.75rem;
+}
+
+.cost-hint {
+  display: block;
+  margin-top: 0.25rem;
+  color: #777;
+}
+
+.result-label::after {
+  display: inline-block;
+  content: ':';
+  margin-right: 0.5rem;
+}
+
+.result-value {
+  display: block;
+  box-sizing: border-box;
+  width: 100%;
+  margin-bottom: 1rem;
+  font-family: monospace;
+}
+
+.loading {
+  display: block;
+  position: relative;
+  width: 64px;
+  height: 64px;
+  margin-left: 10px;
+  transform-origin: left bottom;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.loading span {
+  display: inline-block;
+  position: absolute;
+  left: 6px;
+  width: 13px;
+  background: #bbb;
+  animation: loading 1.2s cubic-bezier(0, 0.5, 0.5, 1) infinite;
+}
+
+.loading span:nth-child(1) {
+  left: 6px;
+  animation-delay: -240ms;
+}
+
+.loading span:nth-child(2) {
+  left: 26px;
+  animation-delay: -120ms;
+}
+
+.loading span:nth-child(3) {
+  left: 45px;
+  animation-delay: 0;
+}
+
+@keyframes loading {
+  0% {
+    top: 6px;
+    height: 51px;
+  }
+  50%,
+  100% {
+    top: 19px;
+    height: 26px;
+  }
+}

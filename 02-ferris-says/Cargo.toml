@@ -1,0 +1,31 @@
+[package]
+name = "ferris_says"
+version = "0.1.0"
+license = "beerware"
+authors = ["Emanuel Kluge <emanuel.kluge@xing.com>"]
+edition = "2018"
+publish = false
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+wasm-bindgen = "0.2"
+ferris-says = "0.1"
+
+[dependencies.web-sys]
+version = "0.3.4"
+features = [
+  'Document',
+  'Element',
+  'HtmlElement',
+  'Node',
+  'Window',
+]
+
+[profile.dev]
+opt-level = 0
+debug = true
+
+[profile.release]
+opt-level = "z"

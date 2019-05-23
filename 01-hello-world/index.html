@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Hello World</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css"
+    />
+    <style>
+      body {
+        max-width: 1000px;
+        margin: 0 auto;
+        padding: 5rem 1rem 1rem;
+        font: normal 1rem/1.2 sans-serif;
+        color: #444;
+        background: #fbfbfb;
+      }
+
+      @media screen and (min-width: 700px) {
+        html {
+          font-size: 125%;
+        }
+      }
+
+      a:hover,
+      a:focus {
+        text-decoration: none;
+      }
+
+      .header {
+        position: fixed;
+        top: 0;
+        right: 0;
+        left: 0;
+        height: 3rem;
+        background: #009090;
+        display: flex;
+        align-items: center;
+        padding-left: 1rem;
+      }
+
+      .header a {
+        color: white;
+      }
+    </style>
+  </head>
+  <body>
+    <header class="header">
+      <a href="/hackweek-13/">back to overview</a>
+    </header>
+
+    <main>
+      <p>Have a look at the console.</p>
+    </main>
+
+    <script type="module">
+      import loadWasm, { greet, print } from './pkg/hello_world.js';
+
+      function main() {
+        greet('World');
+        print('I can log to the console, too! \\o/');
+      }
+
+      loadWasm('./pkg/hello_world_bg.wasm').then(main, console.error);
+    </script>
+  </body>
+</html>

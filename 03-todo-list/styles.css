@@ -1,0 +1,74 @@
+body {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 5rem 1rem 1rem;
+  font: normal 1rem/1.2 sans-serif;
+  color: #444;
+  background: #fbfbfb;
+}
+
+@media screen and (min-width: 700px) {
+  html {
+    font-size: 125%;
+  }
+}
+
+a:hover,
+a:focus {
+  text-decoration: none;
+}
+
+.header {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 3rem;
+  background: #009090;
+  display: flex;
+  align-items: center;
+  padding-left: 1rem;
+}
+
+.header a {
+  color: white;
+}
+
+.input {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 0.5rem;
+}
+
+.clear-btn {
+  padding: 0.5rem 1rem;
+  margin: 1rem 0;
+  font-size: 1rem;
+  color: #777;
+  border-color: #bbb;
+  user-select: none;
+}
+
+.clear-btn[disabled] {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.clear-btn:not([disabled]):hover,
+.clear-btn:not([disabled]):focus {
+  color: #333;
+  border-color: #777;
+}
+
+.list-item {
+  margin: 0.5rem 0;
+}
+
+.todo {
+  display: flex;
+  align-items: center;
+}
+
+.toggle {
+  margin-right: 0.5rem;
+}

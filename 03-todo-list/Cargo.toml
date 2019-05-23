@@ -1,0 +1,25 @@
+[package]
+name = "todo_list"
+version = "0.1.0"
+license = "beerware"
+authors = ["Emanuel Kluge <emanuel.kluge@xing.com>"]
+edition = "2018"
+publish = false
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+serde = "1.0.91"
+serde_derive = "1.0.91"
+
+[dependencies.wasm-bindgen]
+version = "0.2"
+features = ["serde-serialize"]
+
+[profile.dev]
+opt-level = 0
+debug = true
+
+[profile.release]
+opt-level = "z"
