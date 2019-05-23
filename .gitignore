@@ -1,6 +1,5 @@
 target
 node-pkg
-*/pkg/*.d.ts
-*/pkg/package.json
-*/pkg/LICENSE
+pkg
+index.html
 **/*.rs.bk
